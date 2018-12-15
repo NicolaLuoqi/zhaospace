@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scan 配置文件如果发生改变，将会被重新加载 scanPeriod 检测间隔时间 -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<property resource="logback.properties" />
+	<property name="logPath" value="${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}" />
+	<!-- 普通日志 -->
+	<appender name="INFO_FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logPath}/info.log</file>
+		<!-- 循环政策：基于时间创建日志文件 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- 日志命名:单个文件大于50MB 按照时间+自增i 生成log文件 -->
+			<fileNamePattern>${logPath}/info-%d{yyyy-MM-dd}.%i.log.zip
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${max.file.size}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- 最大保存时间 -->
+			<maxHistory>${max.history}</maxHistory>
+		</rollingPolicy>
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${conversion.pattern}</pattern>
+			<charset>${log.encode}</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+	<!-- 错误日志 -->
+	<appender name="ERROR_FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logPath}/error.log</file>
+		<!-- 循环政策：基于时间创建日志文件 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- 日志命名:单个文件大于10MB 按照时间+自增i 生成log文件 -->
+			<fileNamePattern>${logPath}/error-%d{yyyy-MM-dd}.%i.log.zip
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${max.file.error.size}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- 最大保存时间：30天 -->
+			<maxHistory>${max.error.history}</maxHistory>
+		</rollingPolicy>
+		<append>true</append>
+		<!-- 日志格式 -->
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${conversion.pattern}</pattern>
+			<charset>${log.encode}</charset>
+		</encoder>
+		<!-- 日志级别过滤器 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<!-- 过滤的级别 -->
+			<level>ERROR</level>
+			<!-- 匹配时的操作：接收（记录） -->
+			<onMatch>ACCEPT</onMatch>
+			<!-- 不匹配时的操作：拒绝（不记录） -->
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+	<!-- DEBUG日志 -->
+	<appender name="DEBUG_FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logPath}/debug.log</file>
+		<!-- 循环政策：基于时间创建日志文件 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- 日志命名:单个文件大于50MB 按照时间+自增i 生成log文件 -->
+			<fileNamePattern>${logPath}/debug-%d{yyyy-MM-dd}.%i.log.zip
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${max.file.size}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- 最大保存时间 -->
+			<maxHistory>${max.history}</maxHistory>
+		</rollingPolicy>
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${conversion.pattern}</pattern>
+			<charset>${log.encode}</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<appender name="LOGSTASH"
+			  class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<destination>192.168.2.210:5044</destination>
+		<!--queueSize配置合适的大小，发送到logstash的数据就不会丢失-->
+		<queueSize>1048576</queueSize>
+		<!-- encoder必须配置,有多种可选 -->
+		<encoder charset="UTF-8"
+				 class="net.logstash.logback.encoder.LogstashEncoder" >
+			<!-- "logName":"comba-community" 的作用是指定创建索引的名字时用，并且在生成的文档中会多了这个字段  -->
+			<customFields>{"logName":"comba-community"}</customFields>
+			<includeCallerData>true</includeCallerData>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+		</filter>
+	</appender>
+
+	<!-- 控制台 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- 日志格式 -->
+		<encoder>
+			<pattern>${conversion.pattern}</pattern>
+			<charset>${log.encode}</charset>
+		</encoder>
+		<!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息 -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+	</appender>
+
+	<!-- 测试环境+开发环境. 多个使用逗号隔开. -->
+<!-- 	<springProfile name="test,dev"> -->
+<!-- 		<logger name="com.comba.controller" level="info" /> -->
+<!-- 	</springProfile> -->
+	<!-- 生产环境. -->
+<!-- 	<springProfile name="prod"> -->
+<!-- 		<logger name="com.comba.controller" level="ERROR" /> -->
+<!-- 	</springProfile> -->
+
+	<!-- additivity 避免执行2次 -->
+	<logger name="com.comba.controller" level="INFO" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="INFO_FILE" />
+		<appender-ref ref="ERROR_FILE" />
+		<appender-ref ref="DEBUG_FILE" />
+		<appender-ref ref="LOGSTASH" />
+	</logger>
+
+	<root level="${root.level}">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="INFO_FILE" />
+		<appender-ref ref="ERROR_FILE" />
+		<appender-ref ref="DEBUG_FILE" />
+		<appender-ref ref="LOGSTASH" />
+	</root>
+</configuration>

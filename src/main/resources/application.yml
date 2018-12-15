@@ -25,3 +25,5 @@ spring:
         max-active: 8
         min-idle: 0
         max-wait: -1ms
+logging:
+  path: F:/logs/zhaospace
