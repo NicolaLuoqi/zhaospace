@@ -27,10 +27,10 @@ import org.springframework.stereotype.Component;
  * 只是把所有conn.set(…)都换成conn..stringCommands().set(…)，
  * <br>
  *
- * @author fb<br>
+ * @author chenshiliu<br>
  * @version 1.0<br>
  * @taskId <br>
- * @CreateDate Create in 10:59 2018/2/13
+ * @CreateDate Create in 2018/12/13
  * @see com.shiliu.zhaospace.config <br>
  * @since V1.0<br>
  */

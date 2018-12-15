@@ -1,6 +1,5 @@
 package com.shiliu.zhaospace.security;
 
-import com.shiliu.zhaospace.config.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +18,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
-    private static String REALM="MY_OAUTH_REALM";
+    private static String REALM="USER_REALM";
 
     @Autowired
     private TokenStore tokenStore;
@@ -40,11 +39,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
         clients.inMemory()
-                .withClient("my-trusted-client")//客户端ID
+                .withClient("user-client")//客户端ID
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
                 .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
                 .scopes("read", "write", "trust")//授权用户的操作权限
-                .secret(passwordEncoder().encode("secret"))//5.0以上版本需要加密密码
+                .secret(passwordEncoder().encode("android"))//5.0以上版本需要加密密码
                 .accessTokenValiditySeconds(60*60).//token有效期为1小时
                 refreshTokenValiditySeconds(600);//刷新token有效期为600秒
     }

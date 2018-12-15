@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * 日期时间公共类
  *
- * @author
+ * @author chenshiliu
  */
 public class DateUtils {
     /**
@@ -59,7 +59,7 @@ public class DateUtils {
      *
      * @param
      * @return
-     * @author wangzengfeng
+     * @author chenshiliu
      * @method
      * @date 2018/4/12 11:34
      */
@@ -75,7 +75,7 @@ public class DateUtils {
      *
      * @param
      * @return
-     * @author wangzengfeng
+     * @author chenshiliu
      * @method
      * @date 2018/4/12 12:30
      */

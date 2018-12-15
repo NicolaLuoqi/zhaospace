@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * @author george
+ * @author chenshiliu
  */
 @MappedSuperclass
 @Getter

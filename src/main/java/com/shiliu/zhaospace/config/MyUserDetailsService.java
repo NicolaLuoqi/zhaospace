@@ -16,8 +16,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
- * Created by lxg
- * on 2017/2/20.
+ * Created by chenshiliu
+ * on 2018/12/15.
  */
 public class MyUserDetailsService implements UserDetailsService {
 
