@@ -31,12 +31,12 @@ public class InitData implements CommandLineRunner {
     private void saveUser(){
         BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
         UserEntity userEntity=new UserEntity();
-        userEntity.setUsername("赵莉婷");
-        userEntity.setLoginName("zhaoLiTing");
-        userEntity.setMobile("18664898071");
+        userEntity.setUsername("长湴赵子龙");
+        userEntity.setLoginName("cb_zzl");
+        userEntity.setMobile("13088980908");
         userEntity.setEmail("chenliangzlt@sina.com");
         userEntity.setUserNo("1");
-        userEntity.setPassword(passwordEncoder.encode("wodemimashi123"));
+        userEntity.setPassword(passwordEncoder.encode("changshanzhaozl"));
         RoleEntity roleEntity=new RoleEntity();
         roleEntity.setRoleName("admin");
         roleEntity.setRoleNo("10001");
