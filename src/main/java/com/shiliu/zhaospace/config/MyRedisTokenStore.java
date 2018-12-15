@@ -22,17 +22,12 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * <Description> 重写tokenStore .因为最新版中RedisTokenStore的set已经被弃用了，
- * 所以我就只能自定义一个，代码和RedisTokenStore一样，
- * 只是把所有conn.set(…)都换成conn..stringCommands().set(…)，
- * <br>
+ * 最新版中RedisTokenStore的set已经被弃用了，这里重写一个，
+ * 代码和RedisTokenStore一样，只是把所有conn.set(…)都换成conn..stringCommands().set(…)，
  *
- * @author chenshiliu<br>
- * @version 1.0<br>
- * @taskId <br>
+ * @author chenshiliu
  * @CreateDate Create in 2018/12/13
- * @see com.shiliu.zhaospace.config <br>
- * @since V1.0<br>
+ * @see com.shiliu.zhaospace.config
  */
 @Component
 public class MyRedisTokenStore implements TokenStore {
