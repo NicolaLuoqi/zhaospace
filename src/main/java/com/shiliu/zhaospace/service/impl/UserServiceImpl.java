@@ -6,8 +6,10 @@ import com.shiliu.zhaospace.jpa.repository.UserRepository;
 import com.shiliu.zhaospace.service.UserService;
 import com.shiliu.zhaospace.tran.UserTrans;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -34,5 +36,12 @@ public class UserServiceImpl implements UserService{
         Optional<UserEntity> optional=userRepository.findById(userId);
         UserEntity userEntity=optional.get();
         return UserTrans.tranInfo(userEntity);
+    }
+
+    @Override
+    public List<UserDto> getUserInfoList() {
+        Sort sort = new Sort(Sort.Direction.ASC, "userNo");
+        List<UserEntity> userEntityList=userRepository.findAll(sort);
+        return UserTrans.tranList(userEntityList);
     }
 }

@@ -25,5 +25,20 @@ spring:
         max-active: 8
         min-idle: 0
         max-wait: -1ms
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+    enabled: true
+    check-template: true
+    check-template-location: true
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
 logging:
   path: F:/logs/zhaospace

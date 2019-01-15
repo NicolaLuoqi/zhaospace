@@ -14,7 +14,6 @@ public class UserTrans {
             UserDto userDto=tranInfo(userEntity);
             userDtos.add(userDto);
         }
-
         return userDtos;
     }
 

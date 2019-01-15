@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>welcome</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+</head>
+<body style="height: 100%">
+    <div class="loginBox">
+        <div class="mainStyle">
+            <div class="header clearfix">
+                <img class="logoStyle" th:src="@{/images/logo.png}">
+            </div>
+            <div class="bodyBox" style="background: #575dff">
+                <div class="loginInfoBox">
+                    <form action="#" th:action="@{/login}" method="post" th:object="${userInfo}" >
+                        <h2 style="align-content: center">登陆信息</h2>
+                        <br>
+                        <span th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></span>
+                        <div>
+                            <input type="text" style="padding-left: 7px" name="userName"  placeholder="用户名" th:value="*{userName}">
+                            <br>
+                            <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+                        </div>
+                        <div>
+                            <input type="text" style="padding-left: 7px" name="passWard" placeholder="密码" th:value="*{passWard}">
+                            <br>
+                            <span th:if="${#fields.hasErrors('passWard')}" th:errors="*{passWard}"></span>
+                        </div>
+                        <input type="submit" class="btns" value="提交">
+                        <input type="submit" style="margin-left: 34px" class="btnz" value="注册">
+                    </form>
+                </div>
+            </div>
+            <div class="bottomBox">
+                版权所有
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
